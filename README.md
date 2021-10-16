@@ -602,11 +602,12 @@ if you can identify the runtime complexity of different algorithms. It's a super
     - [ ] Implement a vector (mutable array with automatic resizing):
         - [ ] Practice coding using arrays and pointers, and pointer math to jump to an index instead of using indexing.
     		- [x] [Pointers C/C++](https://www.youtube.com/watch?v=zuegQmMdy8M&list=PLWKjhJtqVAbmUE5IqyfGYEYjrZBYzaT4m&index=7) _(Added by myself)_
-        - [ ] New raw data array with allocated memory
-            - can allocate int array under the hood, just not use its features
-            - start with 16, or if starting number is greater, use power of 2 - 16, 32, 64, 128
+        - [x] New raw data array with allocated memory
+            - ~~can allocate int array under the hood, just not use its features~~ (_It doesn't_)
+            - [x] start with 16
+            	- [x] or if starting number is greater, use power of 2 - 16, 32, 64, 128
         - [ ] size() - number of items
-        - [ ] capacity() - number of items it can hold
+        - [x] capacity() - number of items it can hold
         - [ ] is_empty()
         - [ ] at(index) - returns item at given index, blows up if index out of bounds
         - [ ] push(item)
