@@ -1,15 +1,8 @@
 #include "Array.h"
-
-#include <iostream>
-
-void RunTests();
+#include "TestArray.h"
 
 int main() {
-  RunTests();
-  // std::cout << my_array.capacity();
+  TestArray();
   return 0;
 }
 
-void RunTests() {
-  std::cout << "Hello!" << std::endl;
-}
