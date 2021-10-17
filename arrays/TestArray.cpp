@@ -6,10 +6,11 @@
 #include <climits>
 
 void TestArray() {
-  RUN_TEST(TestInitialization);
+  RUN_TEST(TestInitializationAccess);
+  RUN_TEST(TestPushAndRead);
 }
 
-void TestInitialization() {
+void TestInitializationAccess() {
   {
     const Array container{};
     ASSERT_EQUAL(container.capacity(), 16);
@@ -54,5 +55,21 @@ void TestInitialization() {
       const Array container(INT_MIN);
       ASSERT_HINT(container.size(), "Container has to be non-alive");
     } catch (const std::exception& e) {}
+  }
+}
+
+void TestPushAndRead() {
+  {
+    Array container(2);
+    int first = 100500,
+	second = -15000;
+
+    container.push(first);
+    container.push(second);
+
+    ASSERT_EQUAL(container[0], first);
+    ASSERT_EQUAL(container.at(1), second);
+    ASSERT_EQUAL(container.size(), 2);
+    ASSERT_EQUAL(container.capacity(), 16);
   }
 }

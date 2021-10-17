@@ -1,4 +1,5 @@
 #pragma once
 
 void TestArray();
-void TestInitialization();
+void TestInitializationAccess();
+void TestPushAndRead();
