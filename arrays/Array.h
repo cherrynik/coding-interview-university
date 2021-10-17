@@ -18,6 +18,6 @@ private:
 public:
   Array(int size = 16);
 
-  inline size_t capacity() const;
+  size_t capacity() const;
   inline size_t size() const;
 };
