@@ -9,6 +9,10 @@ Array::Array(int input_size) : size_(0), min_size_(16) {
   allocated_at_ = (value_type_*) malloc(capacity_);
 }
 
+Array::~Array() {
+  free(allocated_at_);
+}
+
 inline size_t Array::CalculateSpaceAmortized(int size) const {
   return (size < min_size_) ?
     min_size_ :
@@ -17,4 +21,13 @@ inline size_t Array::CalculateSpaceAmortized(int size) const {
 
 size_t Array::capacity() const {
   return capacity_;
+}
+
+
+size_t Array::size() const {
+  return size_;
+}
+
+bool Array::is_empty() const {
+  return size_ == 0;
 }

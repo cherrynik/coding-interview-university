@@ -18,6 +18,9 @@ private:
 public:
   Array(int size = 16);
 
+  ~Array();
+
   size_t capacity() const;
-  inline size_t size() const;
+  size_t size() const;
+  bool is_empty() const;
 };
