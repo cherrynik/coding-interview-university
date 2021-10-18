@@ -7,7 +7,9 @@
 
 void TestArray() {
   RUN_TEST(TestInitializationAccess);
-  RUN_TEST(TestPushAndRead);
+  RUN_TEST(TestPush);
+  RUN_TEST(TestRead);
+  RUN_TEST(TestPop);
 }
 
 void TestInitializationAccess() {
@@ -41,24 +43,24 @@ void TestInitializationAccess() {
   {
     try {
       const Array container(0);
-      ASSERT_HINT(container.size(), "Container has to be non-alive");
+      ASSERT_HINT(container.size(), "Container has to be non-alive.");
     } catch (const std::exception& e) {} 
   }
   {
     try {
       const Array container(-1);
-      ASSERT_HINT(container.size(), "Container has to be non-alive");
+      ASSERT_HINT(container.size(), "Container has to be non-alive.");
     } catch (const std::exception& e) {}
   }
   {
     try {
       const Array container(INT_MIN);
-      ASSERT_HINT(container.size(), "Container has to be non-alive");
+      ASSERT_HINT(container.size(), "Container has to be non-alive.");
     } catch (const std::exception& e) {}
   }
 }
 
-void TestPushAndRead() {
+void TestPush() {
   {
     Array container(2);
     int first = 100500,
@@ -71,5 +73,40 @@ void TestPushAndRead() {
     ASSERT_EQUAL(container.at(1), second);
     ASSERT_EQUAL(container.size(), 2);
     ASSERT_EQUAL(container.capacity(), 16);
+  }
+}
+
+void TestRead() {
+  int size = 16;
+
+  {
+    Array container(size);
+    for (int i = 0; i < size; ++i) {
+      container.push(i);
+    }
+    try {
+      ASSERT_HINT(container.at(-1), "Index of element has to be non-reached.");
+    } catch (const std::exception& e) {}
+
+    try {
+      ASSERT_HINT(container[size], "Index of element has to be non-reached.");
+    } catch (const std::exception& e) {}
+  }
+
+  {
+    Array container(size);
+    
+    for (int i = 0; i < size; ++i) {
+      container.push(i);
+    }
+
+    ASSERT_EQUAL(container[0], 0);
+    ASSERT_EQUAL(container.at(size - 1), size - 1);
+  }
+}
+
+void TestPop() {
+  {
+
   }
 }

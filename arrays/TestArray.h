@@ -2,4 +2,6 @@
 
 void TestArray();
 void TestInitializationAccess();
-void TestPushAndRead();
+void TestPush();
+void TestRead();
+void TestPop();
