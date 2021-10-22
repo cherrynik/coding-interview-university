@@ -10,6 +10,8 @@ void TestArray() {
   RUN_TEST(TestPush);
   RUN_TEST(TestRead);
   RUN_TEST(TestPop);
+  RUN_TEST(TestAmortizedResizing);
+  RUN_TEST(TestFind);
 }
 
 void TestInitializationAccess() {
@@ -74,6 +76,7 @@ void TestPush() {
     ASSERT_EQUAL(container.size(), 2);
     ASSERT_EQUAL(container.capacity(), 16);
   }
+
 }
 
 void TestRead() {
@@ -84,6 +87,7 @@ void TestRead() {
     for (int i = 0; i < size; ++i) {
       container.push(i);
     }
+
     try {
       ASSERT_HINT(container.at(-1), "Index of element has to be non-reached.");
     } catch (const std::exception& e) {}
@@ -95,7 +99,6 @@ void TestRead() {
 
   {
     Array container(size);
-    
     for (int i = 0; i < size; ++i) {
       container.push(i);
     }
@@ -106,7 +109,73 @@ void TestRead() {
 }
 
 void TestPop() {
-  {
+  int size = 16;
 
+  {
+    Array container;
+
+    for (int i = 0; i < size; ++i) {
+      container.push(i);
+    }
+    for (int i = size; i > 0; --i) {
+      ASSERT_EQUAL(container.pop(), i - 1);
+    }
+  }
+
+  {
+    Array container;
+
+    try {
+      ASSERT_HINT(container.pop(), "There is no last element to pop.");
+    } catch (const std::exception& e) {}
+  }
+}
+
+void TestAmortizedResizing() {
+  int min_size = 16;
+
+  {
+    Array container(min_size);
+    
+    for (int i = 0; i < min_size; ++i) {
+      container.push(i);
+    }
+    ASSERT_EQUAL(container.capacity(), min_size * 2);
+
+    for (int i = min_size; i > min_size / 2; --i) {
+      container.pop();
+    }
+    ASSERT_EQUAL(container.capacity(), min_size);
+
+    for (int i = min_size / 2; i > 0; --i) {
+      container.pop();
+    }
+    ASSERT_EQUAL(container.capacity(), min_size);
+    ASSERT_EQUAL(container.size(), 0);
+  }
+
+  {
+    int size = 1024;
+    Array container;
+
+    for (int i = 1; i <= size; ++i) {
+      container.push(0);
+    }
+    
+    ASSERT_EQUAL(container.size(), size);
+    ASSERT_EQUAL(container.capacity(), size * 2);
+  }
+}
+
+void TestFind() {
+  {
+    Array container;
+    int size = container.capacity();
+
+    for (int i = 1; i <= size; ++i) {
+      container.push(i);
+    }
+    ASSERT_EQUAL(container.find(3), 2);
+    ASSERT_EQUAL(container.find(0), -1);
   }
 }

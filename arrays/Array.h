@@ -20,7 +20,7 @@ private:
   size_t capacity_,
 	 size_;
   size_t calc_nearest_step2(int size) const;
-  void resize_amortizely(Operation operation);
+  void resize_amortizely_when(Operation operation);
 
 public:
   Array(int size = 16);
@@ -39,4 +39,5 @@ public:
 
   value_type at(int index) const;
   value_type operator[](int index) const;
+  int find(value_type el) const;
 };
