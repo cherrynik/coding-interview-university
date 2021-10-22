@@ -1,6 +1,5 @@
-# Task #1
-- Data Structure - Array
-- Programming Language - C++11
+# [DS] Array - Task 1
+<!-- Made on C++11 -->
 
 ## Compile
 ```bash
