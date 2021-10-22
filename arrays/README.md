@@ -12,7 +12,7 @@ g++ Array.cpp TestArray.cpp main.cpp
 ```
 
 ## Functionality
-### Read:
+### Read
 - `is_empty()`
 - `size()`
   - Returns how many items are hold.
@@ -22,7 +22,7 @@ g++ Array.cpp TestArray.cpp main.cpp
   - Returns first index of the found element.
     If there is no such an element, return -1.
 
-### Write:
+### Write
 - `push_back(int element)`
   - Adds an element at the end of container.
 - **NOT FINISHED YET:** `insert(int before_what_index, int element)`
@@ -30,7 +30,7 @@ g++ Array.cpp TestArray.cpp main.cpp
 - **NOT FINISHED YET:** `prepend(int element)`
   - _No description yet._
 
-### Delete:
+### Delete
 - `pop()`
   - Removes the last element from container
     and returns its value.
