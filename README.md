@@ -619,8 +619,8 @@ if you can identify the runtime complexity of different algorithms. It's a super
         - [ ] remove(item) - looks for value and removes index holding it (even if in multiple places)
         - [x] find(item) - looks for value and returns first index with that value, -1 if not found
         - [x] resize(new_capacity) // private function
-            - when you reach capacity, resize to double the size
-            - when popping an item, if size is 1/4 of capacity, resize to half
+            - [x] when you reach capacity, resize to double the size
+            - [x] when popping an item, if size is 1/4 of capacity, resize to half
     - [ ] Time
         - [x] O(1) to add/remove at end (amortized for allocations for more space), index, or update
         - [ ] O(n) to insert/remove elsewhere
