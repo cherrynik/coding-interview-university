@@ -3,4 +3,4 @@
 - Programming Language - C++11
 
 ## Compile & Run:
-> g++ Array.cpp main.cpp && ./a.out
+> g++ Array.cpp TestArray.cpp main.cpp && ./a.out
