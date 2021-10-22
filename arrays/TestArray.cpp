@@ -21,39 +21,46 @@ void TestInitializationAccess() {
     ASSERT_EQUAL(container.size(), 0);
     ASSERT(container.is_empty());
   }
+
   {
     const Array container(8);
     ASSERT_EQUAL(container.capacity(), 16);
     ASSERT_EQUAL(container.size(), 0);
     ASSERT(container.is_empty());
   }
+
   {
     const Array container(17);
     ASSERT_EQUAL(container.capacity(), 32);
   }
+
   {
     const Array container(32);
     ASSERT_EQUAL(container.capacity(), 32);
   }
+
   {
     const Array container(INT_MAX);
     ASSERT(container.capacity() > 0);
     ASSERT(container.is_empty());
-    ASSERT_EQUAL(container.capacity() - 1, INT_MAX); // Because capacity is the type of size_t.
+    ASSERT_EQUAL(container.capacity() - 1, INT_MAX); // Because capacity is of the type of size_t.
     ASSERT_EQUAL(container.size(), 0);
   }
+
   {
     try {
       const Array container(0);
       ASSERT_HINT(container.size(), "Container has to be non-alive.");
     } catch (const std::exception& e) {} 
   }
+
   {
     try {
       const Array container(-1);
       ASSERT_HINT(container.size(), "Container has to be non-alive.");
     } catch (const std::exception& e) {}
   }
+
   {
     try {
       const Array container(INT_MIN);
@@ -76,7 +83,6 @@ void TestPush() {
     ASSERT_EQUAL(container.size(), 2);
     ASSERT_EQUAL(container.capacity(), 16);
   }
-
 }
 
 void TestRead() {
@@ -109,14 +115,14 @@ void TestRead() {
 }
 
 void TestPop() {
-  int size = 16;
-
   {
+    int size = 16;
     Array container;
 
     for (int i = 0; i < size; ++i) {
       container.push(i);
     }
+
     for (int i = size; i > 0; --i) {
       ASSERT_EQUAL(container.pop(), i - 1);
     }
@@ -132,9 +138,8 @@ void TestPop() {
 }
 
 void TestAmortizedResizing() {
-  int min_size = 16;
-
   {
+    int min_size = 16;
     Array container(min_size);
     
     for (int i = 0; i < min_size; ++i) {
@@ -156,12 +161,16 @@ void TestAmortizedResizing() {
 
   {
     int size = 1024;
-    Array container;
+    Array container, container2;
 
     for (int i = 1; i <= size; ++i) {
-      container.push(0);
+      container.push(i);
+      container2.push(i * 2);
     }
     
+    // Checking if elements aren't overwritten after memory reallocation
+    ASSERT_EQUAL(container[3], 4);
+    ASSERT_EQUAL(container2[0], 2);
     ASSERT_EQUAL(container.size(), size);
     ASSERT_EQUAL(container.capacity(), size * 2);
   }
@@ -175,6 +184,7 @@ void TestFind() {
     for (int i = 1; i <= size; ++i) {
       container.push(i);
     }
+
     ASSERT_EQUAL(container.find(3), 2);
     ASSERT_EQUAL(container.find(0), -1);
   }

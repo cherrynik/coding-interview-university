@@ -23,7 +23,7 @@ private:
   void resize_amortizely_when(Operation operation);
 
 public:
-  Array(int size = 16);
+  Array(int size = 1);
 
   ~Array();
 
