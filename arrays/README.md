@@ -27,9 +27,10 @@ g++ Array.cpp TestArray.cpp main.cpp
   - Adds an element at the end of container.
 - `insert(int before_what_index, int element)`
   - Adds an element on any available position at `[0, size)`,
-    moving all elements, what are after the input index, right
+    moving `container[before_what_index]` and all the elements after that right
 - `prepend(int element)`
-  - Adds an element at the beginning of container.
+  - Adds an element at the beginning of container,
+    moving the first and all the elements after that right
 
 ### Delete
 - `pop()`
