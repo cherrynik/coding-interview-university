@@ -20,7 +20,7 @@ g++ Array.cpp TestArray.cpp main.cpp
   - Returns how many items can be hold.
 - `find(int element)`
   - Returns first index of the found element.
-    If there is no such an element, return -1.
+    If there is no such an element, returns `-1`.
 
 ### Write
 - `push_back(int element)`
@@ -36,5 +36,5 @@ g++ Array.cpp TestArray.cpp main.cpp
     and returns its value.
 - **NOT FINISHED YET:** `remove(int index)`
   - _No description yet._
-- **NOT FINISHED YET:** `delete(int all_same_elements)`
+- **NOT FINISHED YET:** `delete(int all_the_same_elements)`
   - _No description yet._
