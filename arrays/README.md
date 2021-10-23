@@ -28,7 +28,7 @@ g++ Array.cpp TestArray.cpp main.cpp
 - `insert(int before_what_index, int element)`
   - Adds an element on any available position at `[0, size)`,
     moving `container[before_what_index]` and all the elements after that right
-- `prepend(int element)`
+- `push_front(int element)`
   - Adds an element at the beginning of container,
     moving `container[0]` and all the elements after that right
 
