@@ -30,7 +30,7 @@ g++ Array.cpp TestArray.cpp main.cpp
     moving `container[before_what_index]` and all the elements after that right
 - `prepend(int element)`
   - Adds an element at the beginning of container,
-    moving the first and all the elements after that right
+    moving `container[0]` and all the elements after that right
 
 ### Delete
 - `pop()`
