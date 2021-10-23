@@ -134,7 +134,7 @@ void TestPop() {
     Array container;
 
     try {
-      ASSERT_HINT(container.pop(), "There is no last element to pop.");
+      ASSERT_HINT(container.pop(), "There is no last element in array to pop.");
     } catch (const std::exception& e) {}
   }
 }
@@ -232,5 +232,21 @@ void TestInsert() {
     ASSERT_EQUAL(container[4], 2);
     ASSERT_EQUAL(container.size(), 7);
     ASSERT_EQUAL(container.capacity(), 16);
+  }
+
+  {
+    Array container;
+
+    container.insert(0, 6);
+
+    try {
+      container.insert(-1, 3);
+      ASSERT_EQUAL_HINT(container.size(), 1, "Insert hasn't to run as it couldn't operate with unavailable indices.");
+    } catch (const std::exception& e) {}
+
+    try {
+      container.insert(2, 0);
+      ASSERT_EQUAL_HINT(container.size(), 1, "Insert hasn't to run as it couldn't operate with unavailable indices.");
+    } catch (const std::exception& e) {}
   }
 }
