@@ -25,10 +25,11 @@ g++ Array.cpp TestArray.cpp main.cpp
 ### Write
 - `push_back(int element)`
   - Adds an element at the end of container.
-- **NOT FINISHED YET:** `insert(int before_what_index, int element)`
-  - _No description yet._
-- **NOT FINISHED YET:** `prepend(int element)`
-  - _No description yet._
+- `insert(int before_what_index, int element)`
+  - Adds an element on any available position at `[0, size)`,
+    moving all elements, what are after the input index, right
+- `prepend(int element)`
+  - Adds an element at the beginning of container.
 
 ### Delete
 - `pop()`
