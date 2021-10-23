@@ -64,7 +64,7 @@ bool Array::is_empty() const {
   return size_ == 0;
 }
 
-void Array::push(value_type el) {
+void Array::push_back(value_type el) {
   *(allocated_at_ + size_) = el;
   ++size_;
 

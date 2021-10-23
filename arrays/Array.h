@@ -27,9 +27,9 @@ public:
 
   ~Array();
 
-  void prepend(value_type el);
+  void push_front(value_type el);
   void insert(int beforeWhatIndex, value_type el);
-  void push(value_type el);
+  void push_back(value_type el);
 
   value_type pop();
 
