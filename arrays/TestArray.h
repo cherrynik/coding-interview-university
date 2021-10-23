@@ -8,3 +8,5 @@ void TestRead();
 void TestPop();
 void TestAmortizedResizing();
 void TestFind();
+void TestPushFront();
+void TestInsert();

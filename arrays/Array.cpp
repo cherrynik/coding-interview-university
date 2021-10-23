@@ -45,16 +45,42 @@ void Array::resize_amortizely_when(Array::Operation operation) {
     }
   }
 
-
   if (has_to_realloc) {
     allocated_at_ = (value_type*) realloc(allocated_at_, capacity_ * sizeof(value_type));
+  }
+}
+
+void Array::save_and_move_when(Array::Operation operation,
+                               value_type input,
+			       int starting_from_index) {
+  if (starting_from_index > size_ ||
+      starting_from_index < 0) {
+    throw std::invalid_argument("Operation can't be executed: index is out of boundaries.");
+  }
+
+  switch (operation) {
+    case Array::Operation::WRITE: {
+      value_type current_val = input,
+                 tmp;
+      for (; starting_from_index < size_; ++starting_from_index) {
+        value_type* current_pos = (value_type*) (allocated_at_ + starting_from_index);
+
+        tmp = *current_pos;
+	*current_pos = current_val;
+	current_val = tmp;
+      }
+      push_back(current_val);
+      break;
+    }
+    case Array::Operation::DELETE: {
+      break;
+    }
   }
 }
 
 size_t Array::capacity() const {
   return capacity_;
 }
-
 
 size_t Array::size() const {
   return size_;
@@ -71,10 +97,19 @@ void Array::push_back(value_type el) {
   Array::resize_amortizely_when(Array::Operation::WRITE);
 }
 
+void Array::insert(int before_what_index, value_type el) {
+  Array::save_and_move_when(Array::Operation::WRITE, el, before_what_index);
+}
+
+void Array::push_front(value_type el) {
+  Array::insert(0, el);
+}
+
 Array::value_type Array::pop() {
   if (size_ == 0) {
     throw std::runtime_error("Array is already out of elements.");
   }
+
   value_type* last_element = allocated_at_ + (size_ - 1);
   value_type copy_of_last = *last_element;
   last_element = NULL;
@@ -105,4 +140,3 @@ int Array::find(int requested_val) const {
   }
   return -1;
 }
-

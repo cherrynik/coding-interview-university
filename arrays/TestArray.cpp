@@ -12,6 +12,8 @@ void TestArray() {
   RUN_TEST(TestPop);
   RUN_TEST(TestAmortizedResizing);
   RUN_TEST(TestFind);
+  RUN_TEST(TestPushFront);
+  RUN_TEST(TestInsert);
 }
 
 void TestInitializationAccess() {
@@ -75,8 +77,8 @@ void TestPush() {
     int first = 100500,
 	second = -15000;
 
-    container.push(first);
-    container.push(second);
+    container.push_back(first);
+    container.push_back(second);
 
     ASSERT_EQUAL(container[0], first);
     ASSERT_EQUAL(container.at(1), second);
@@ -91,7 +93,7 @@ void TestRead() {
   {
     Array container(size);
     for (int i = 0; i < size; ++i) {
-      container.push(i);
+      container.push_back(i);
     }
 
     try {
@@ -106,7 +108,7 @@ void TestRead() {
   {
     Array container(size);
     for (int i = 0; i < size; ++i) {
-      container.push(i);
+      container.push_back(i);
     }
 
     ASSERT_EQUAL(container[0], 0);
@@ -120,7 +122,7 @@ void TestPop() {
     Array container;
 
     for (int i = 0; i < size; ++i) {
-      container.push(i);
+      container.push_back(i);
     }
 
     for (int i = size; i > 0; --i) {
@@ -143,7 +145,7 @@ void TestAmortizedResizing() {
     Array container(min_size);
     
     for (int i = 0; i < min_size; ++i) {
-      container.push(i);
+      container.push_back(i);
     }
     ASSERT_EQUAL(container.capacity(), min_size * 2);
 
@@ -164,8 +166,8 @@ void TestAmortizedResizing() {
     Array container, container2;
 
     for (int i = 1; i <= size; ++i) {
-      container.push(i);
-      container2.push(i * 2);
+      container.push_back(i);
+      container2.push_back(i * 2);
     }
     
     // Checking if elements aren't overwritten after memory reallocation
@@ -179,13 +181,56 @@ void TestAmortizedResizing() {
 void TestFind() {
   {
     Array container;
-    int size = container.capacity();
+    int size = 16;
 
     for (int i = 1; i <= size; ++i) {
-      container.push(i);
+      container.push_back(i);
     }
 
     ASSERT_EQUAL(container.find(3), 2);
     ASSERT_EQUAL(container.find(0), -1);
+  }
+}
+
+void TestPushFront() {
+  {
+    Array container;
+    int size = 8;
+
+    for (int i = 0; i < size; ++i) {
+      container.push_front(i);
+    }
+
+    container.push_front(20);
+    container.push_front(10);
+
+    ASSERT_EQUAL(container[0], 10);
+    ASSERT_EQUAL(container.at(1), 20);
+    ASSERT_EQUAL(container[container.size() - 1], 0);
+    ASSERT_EQUAL(container.at(2), size - 1);
+    ASSERT_EQUAL(container.capacity(), 16);
+    ASSERT_EQUAL(container.size(), 10);
+  }
+}
+
+void TestInsert() {
+  {
+    Array container;
+    int size = 5;
+
+    for (int i = 0; i < size; ++i) {
+      container.push_back(i);
+    }
+
+    container.insert(0, 333);
+    container.insert(3, 5423);
+    
+    ASSERT_EQUAL(container[0], 333);
+    ASSERT_EQUAL(container[1], 0);
+    ASSERT_EQUAL(container[2], 1);
+    ASSERT_EQUAL(container[3], 5423);
+    ASSERT_EQUAL(container[4], 2);
+    ASSERT_EQUAL(container.size(), 7);
+    ASSERT_EQUAL(container.capacity(), 16);
   }
 }

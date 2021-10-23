@@ -21,6 +21,9 @@ private:
 	 size_;
   size_t calc_nearest_step2(int size) const;
   void resize_amortizely_when(Operation operation);
+  void save_and_move_when(Array::Operation operation,
+                          value_type input,
+                          int starting_from_index);
 
 public:
   Array(int size = 1);
