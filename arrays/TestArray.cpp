@@ -14,6 +14,7 @@ void TestArray() {
   RUN_TEST(TestFind);
   RUN_TEST(TestPushFront);
   RUN_TEST(TestInsert);
+  RUN_TEST(TestRemove);
 }
 
 void TestInitializationAccess() {
@@ -248,5 +249,19 @@ void TestInsert() {
       container.insert(2, 0);
       ASSERT_EQUAL_HINT(container.size(), 1, "Insert hasn't to run as it couldn't operate with unavailable indices.");
     } catch (const std::exception& e) {}
+  }
+}
+
+void TestRemove() {
+  {
+    Array container;
+    int size = 3;
+
+    for (int i = 0; i < size; ++i) {
+      container.push_back(i);
+    }
+    ASSERT_EQUAL(container.remove(0), 0);
+    ASSERT_EQUAL(container.size(), 2);
+    ASSERT_EQUAL(container[1], 2);
   }
 }

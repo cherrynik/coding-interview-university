@@ -10,3 +10,4 @@ void TestAmortizedResizing();
 void TestFind();
 void TestPushFront();
 void TestInsert();
+void TestRemove();
