@@ -1,9 +1,8 @@
-# [DS] Array - Task 1
-<!-- Made on C++11 -->
+# [Data Structure] Array
 
 ## Compile
 ```bash
-g++ Array.cpp TestArray.cpp main.cpp
+g++ Array.cpp TestArray.cpp main.cpp --std=c++11
 ```
 
 ## Run
