@@ -45,5 +45,5 @@ public:
 
   value_type at(int i) const;
   value_type operator[](int i) const;
-  int find(value_type requsted_val) const;
+  int find(value_type requested_val) const;
 };
