@@ -599,8 +599,8 @@ if you can identify the runtime complexity of different algorithms. It's a super
         - [x] [UC Berkeley CS61B - Linear and Multi-Dim Arrays (video)](https://archive.org/details/ucberkeley_webcast_Wp8oiO_CZZE) (Start watching from 15m 32s)
         - [x] [Dynamic Arrays (video)](https://www.coursera.org/lecture/data-structures/dynamic-arrays-EwbnV)
         - [x] [Jagged Arrays (video)](https://www.youtube.com/watch?v=1jtrQqYpt7g)
-    - [ ] Implement a vector (mutable array with automatic resizing):
-        - [ ] Practice coding using arrays and pointers, and pointer math to jump to an index instead of using indexing.
+    - [x] Implement a vector (mutable array with automatic resizing):
+        - [x] Practice coding using arrays and pointers, and pointer math to jump to an index instead of using indexing.
     		- [x] [Pointers C/C++](https://www.youtube.com/watch?v=zuegQmMdy8M&list=PLWKjhJtqVAbmUE5IqyfGYEYjrZBYzaT4m&index=7) _(Added by myself)_
         - [x] New raw data array with allocated memory
             - ~~can allocate int array under the hood, just not use its features~~ (_It doesn't_)
@@ -611,21 +611,21 @@ if you can identify the runtime complexity of different algorithms. It's a super
         - [x] is_empty()
         - [x] at(index) - returns item at given index, blows up if index out of bounds
         	- [x] [index] - also made with `operator[]` _(Added by myself)_
-        - [x] push(item)
-        - [ ] insert(index, item) - inserts item at index, shifts that index's value and trailing elements to the right
-        - [ ] prepend(item) - can use insert above at index 0
+        - [x] ~~push~~ push_back(item) (_Renamed by myself_)
+        - [x] insert(index, item) - inserts item at index, shifts that index's value and trailing elements to the right
+        - [x] ~~prepend~~ push_front(item) - can use insert above at index 0 (_Renamed by myself_)
         - [x] pop() - remove from end, return value
-        - [ ] delete(index) - delete item at index, shifting all trailing elements left
-        - [ ] remove(item) - looks for value and removes index holding it (even if in multiple places)
+        - [x] ~~delete~~ remove_at(index) - delete item at index, shifting all trailing elements left (_Renamed by myself_)
+        - [x] ~~remove~~ remove_all(item) - looks for value and removes index holding it (even if in multiple places) (_Renamed by myself_)
         - [x] find(item) - looks for value and returns first index with that value, -1 if not found
-        - [x] resize(new_capacity) // private function
+        - [x] ~~resize~~ resize_amortizely_when(new_capacity) // private function (_Renamed by myself_)
             - [x] when you reach capacity, resize to double the size
             - [x] when popping an item, if size is 1/4 of capacity, resize to half
-    - [ ] Time
+    - [x] Time
         - [x] O(1) to add/remove at end (amortized for allocations for more space), index, or update
-        - [ ] O(n) to insert/remove elsewhere
-    - [ ] Space
-        - [ ] contiguous in memory, so proximity helps performance
+        - [x] O(n) to insert/remove elsewhere
+    - [x] Space
+        - [x] contiguous in memory, so proximity helps performance
         - [x] space needed = (array capacity, which is >= n) * size of item, but even if 2n, still O(n)
 
 - ### Linked Lists
