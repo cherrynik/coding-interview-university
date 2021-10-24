@@ -5,19 +5,26 @@
 
 #include <climits>
 
+using exception = const std::exception&;
+
+// TODO: Improve tests a little bit
+// TODO: Small refactoring here
 void TestArray() {
   RUN_TEST(TestInitializationAccess);
   RUN_TEST(TestPush);
   RUN_TEST(TestRead);
   RUN_TEST(TestPop);
-  RUN_TEST(TestAmortizedResizing);
   RUN_TEST(TestFind);
   RUN_TEST(TestPushFront);
   RUN_TEST(TestInsert);
-  RUN_TEST(TestRemove);
+  RUN_TEST(TestRemoveAt);
+  RUN_TEST(TestRemoveAll);
+  RUN_TEST(TestAmortizedResizing);
 }
 
 void TestInitializationAccess() {
+  const std::string Error_Alive = "Container has to be non-alive.";
+
   {
     const Array container{};
     ASSERT_EQUAL(container.capacity(), 16);
@@ -53,22 +60,22 @@ void TestInitializationAccess() {
   {
     try {
       const Array container(0);
-      ASSERT_HINT(container.size(), "Container has to be non-alive.");
-    } catch (const std::exception& e) {} 
+      ASSERT_HINT(container.size(), Error_NonAlive);
+    } catch (exception e) {} 
   }
 
   {
     try {
       const Array container(-1);
-      ASSERT_HINT(container.size(), "Container has to be non-alive.");
-    } catch (const std::exception& e) {}
+      ASSERT_HINT(container.size(), Error_NonAlive);
+    } catch (exception e) {}
   }
 
   {
     try {
       const Array container(INT_MIN);
-      ASSERT_HINT(container.size(), "Container has to be non-alive.");
-    } catch (const std::exception& e) {}
+      ASSERT_HINT(container.size(), Error_NonAlive);
+    } catch (exception e) {}
   }
 }
 
@@ -90,6 +97,7 @@ void TestPush() {
 
 void TestRead() {
   int size = 16;
+  const std::string Error_OutOfBound = "Index of element has to be non-reached.";
 
   {
     Array container(size);
@@ -98,12 +106,12 @@ void TestRead() {
     }
 
     try {
-      ASSERT_HINT(container.at(-1), "Index of element has to be non-reached.");
-    } catch (const std::exception& e) {}
+      ASSERT_HINT(container.at(-1), Error_OutOfBound);
+    } catch (exception e) {}
 
     try {
-      ASSERT_HINT(container[size], "Index of element has to be non-reached.");
-    } catch (const std::exception& e) {}
+      ASSERT_HINT(container[size], Error_OutOfBound);
+    } catch (exception e) {}
   }
 
   {
@@ -118,6 +126,8 @@ void TestRead() {
 }
 
 void TestPop() {
+  const std::string Error_PopEmpty = "There is no last element in array to pop.";
+
   {
     int size = 16;
     Array container;
@@ -135,47 +145,8 @@ void TestPop() {
     Array container;
 
     try {
-      ASSERT_HINT(container.pop(), "There is no last element in array to pop.");
-    } catch (const std::exception& e) {}
-  }
-}
-
-void TestAmortizedResizing() {
-  {
-    int min_size = 16;
-    Array container(min_size);
-    
-    for (int i = 0; i < min_size; ++i) {
-      container.push_back(i);
-    }
-    ASSERT_EQUAL(container.capacity(), min_size * 2);
-
-    for (int i = min_size; i > min_size / 2; --i) {
-      container.pop();
-    }
-    ASSERT_EQUAL(container.capacity(), min_size);
-
-    for (int i = min_size / 2; i > 0; --i) {
-      container.pop();
-    }
-    ASSERT_EQUAL(container.capacity(), min_size);
-    ASSERT_EQUAL(container.size(), 0);
-  }
-
-  {
-    int size = 1024;
-    Array container, container2;
-
-    for (int i = 1; i <= size; ++i) {
-      container.push_back(i);
-      container2.push_back(i * 2);
-    }
-    
-    // Checking if elements aren't overwritten after memory reallocation
-    ASSERT_EQUAL(container[3], 4);
-    ASSERT_EQUAL(container2[0], 2);
-    ASSERT_EQUAL(container.size(), size);
-    ASSERT_EQUAL(container.capacity(), size * 2);
+      ASSERT_HINT(container.pop(), Error_PopEmpty);
+    } catch (exception e) {}
   }
 }
 
@@ -215,6 +186,8 @@ void TestPushFront() {
 }
 
 void TestInsert() {
+  const std::string Error_OutOfBound = "Insert hasn't to run as it couldn't operate with unavailable indices.";
+
   {
     Array container;
     int size = 5;
@@ -242,17 +215,19 @@ void TestInsert() {
 
     try {
       container.insert(-1, 3);
-      ASSERT_EQUAL_HINT(container.size(), 1, "Insert hasn't to run as it couldn't operate with unavailable indices.");
-    } catch (const std::exception& e) {}
+      ASSERT_EQUAL_HINT(container.size(), 1, Error_OutOfBound);
+    } catch (exception e) {}
 
     try {
       container.insert(2, 0);
-      ASSERT_EQUAL_HINT(container.size(), 1, "Insert hasn't to run as it couldn't operate with unavailable indices.");
-    } catch (const std::exception& e) {}
+      ASSERT_EQUAL_HINT(container.size(), 1, Error_OutOfBound);
+    } catch (exception e) {}
   }
 }
 
-void TestRemove() {
+void TestRemoveAt() {
+  const std::string Error_OutOfBound = "Removing has to blow up if it's pointed out of boundaries.";
+
   {
     Array container;
     int size = 3;
@@ -260,8 +235,108 @@ void TestRemove() {
     for (int i = 0; i < size; ++i) {
       container.push_back(i);
     }
-    ASSERT_EQUAL(container.remove(0), 0);
+    
+    ASSERT_EQUAL(container.remove_at(0), 0);
     ASSERT_EQUAL(container.size(), 2);
     ASSERT_EQUAL(container[1], 2);
   }
+
+  {
+    Array container;
+
+    try {
+      ASSERT_HINT(container.remove_at(-1), Error_OutOfBound); 
+    } catch (exception e) {}
+
+    try {
+      ASSERT_HINT(container.remove_at(0), Error_OutOfBound);
+    } catch (exception e) {}
+  }
 }
+
+void TestRemoveAll() {
+  int size = 8;
+
+  {
+    Array container;
+    for (int i = 0; i < size; ++i) {
+      container.push_back(i);
+      container.push_back(i + 1);
+    }
+
+    container.remove_all(1);
+    ASSERT_EQUAL(container.size(), 14);
+    ASSERT_EQUAL(container.capacity(), 32);
+  }
+
+  {
+    Array container;
+    for (int i = 0; i < size; ++i) {
+      container.push_back(i);
+    }
+    
+    container.remove_all(-1);
+    ASSERT_EQUAL(container.size(), 8);
+  }
+}
+
+void TestAmortizedResizing() {
+  {
+    int min_size = 16;
+    Array container(min_size);
+    
+    for (int i = 0; i < min_size; ++i) {
+      container.push_back(i);
+    }
+    ASSERT_EQUAL(container.capacity(), min_size * 2);
+
+    for (int i = min_size; i > min_size / 2; --i) {
+      container.pop();
+    }
+    ASSERT_EQUAL(container.capacity(), min_size);
+
+    for (int i = min_size / 2; i > 0; --i) {
+      container.pop();
+    }
+    ASSERT_EQUAL(container.capacity(), min_size);
+    ASSERT_EQUAL(container.size(), 0);
+  }
+
+  {
+    int size = 1024;
+    Array container, container2;
+
+    for (int i = 1; i <= size; ++i) {
+      container.push_back(i);
+      container2.push_back(i * 2);
+    }
+    
+    // Checking if elements aren't overwritten after memory reallocation (somehow)
+    ASSERT_EQUAL(container[3], 4);
+    ASSERT_EQUAL(container2[0], 2);
+    ASSERT_EQUAL(container.size(), size);
+    ASSERT_EQUAL(container.capacity(), size * 2);
+  }
+
+  {
+    int min_size = 16;
+    Array container(min_size);
+
+    for (int i = 0; i < min_size; ++i) {
+      container.push_back(i);
+    }
+    ASSERT_EQUAL(container.capacity(), min_size * 2);
+
+    for (int i = min_size - 1; i >= min_size / 2; --i) {
+      container.remove_at(i);
+    }
+    ASSERT_EQUAL(container.capacity(), min_size);
+
+    for (int i = min_size / 2 - 1; i >= 0; --i) {
+      container.remove_at(i);
+    }
+    ASSERT_EQUAL(container.size(), 0);
+    ASSERT_EQUAL(container.capacity(), min_size);
+  }
+}
+
