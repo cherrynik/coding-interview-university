@@ -5,4 +5,3 @@ int main() {
   TestArray();
   return 0;
 }
-

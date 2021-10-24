@@ -7,8 +7,6 @@
 
 using exception = const std::exception&;
 
-// TODO: Improve tests a little bit
-// TODO: Small refactoring here
 void TestArray() {
   RUN_TEST(TestInitializationAccess);
   RUN_TEST(TestPush);
@@ -83,7 +81,7 @@ void TestPush() {
   {
     Array container(2);
     int first = 100500,
-	second = -15000;
+	      second = -15000;
 
     container.push_back(first);
     container.push_back(second);
