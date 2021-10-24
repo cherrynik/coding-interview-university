@@ -58,6 +58,7 @@ void Array::save_and_move_when(Array::Operation operation,
     throw std::invalid_argument("Operation can't be executed: index is out of boundaries.");
   }
 
+  //value_type* current_pos = (value_type*) (allocated_at_ + starting_from_index);
   switch (operation) {
     case Array::Operation::WRITE: {
       value_type current_val = input,
@@ -69,10 +70,16 @@ void Array::save_and_move_when(Array::Operation operation,
 	*current_pos = current_val;
 	current_val = tmp;
       }
-      push_back(current_val);
+      Array::push_back(current_val);
       break;
     }
     case Array::Operation::DELETE: {
+      for (; starting_from_index < size_ - 1; ++starting_from_index) {
+        value_type* current_pos = (value_type*) (allocated_at_ + starting_from_index);
+
+	*current_pos = *(current_pos + 1);
+      }
+      Array::pop();
       break;
     }
   }
@@ -118,6 +125,14 @@ Array::value_type Array::pop() {
   Array::resize_amortizely_when(Array::Operation::DELETE);
 
   return copy_of_last;
+}
+
+Array::value_type Array::remove(int index) {
+  value_type copy_of_element = at(index);
+
+  save_and_move_when(Array::Operation::DELETE, value_type(), index);
+
+  return copy_of_element;
 }
 
 Array::value_type Array::at(int index) const {
