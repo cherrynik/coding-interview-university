@@ -153,7 +153,7 @@ Array::value_type Array::operator[](int i) const {
   return Array::at(i);
 }
 
-int Array::find(int requested_val) const {
+int Array::find(value_type requested_val) const {
   for (int i = 0; i < size_; ++i) {
     value_type current = *at_memory(i);
     if (current == requested_val) {

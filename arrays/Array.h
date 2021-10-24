@@ -6,7 +6,7 @@
 
 class Array {
 private:
-  using value_type = int;
+  using value_type = std::string;
 
   const uint8_t min_size_ = 16;
 
@@ -45,5 +45,5 @@ public:
 
   value_type at(int i) const;
   value_type operator[](int i) const;
-  int find(value_type el) const;
+  int find(value_type requsted_val) const;
 };
