@@ -40,4 +40,4 @@ g++ Array.cpp TestArray.cpp main.cpp --std=c++11
     and returns its value.
 - `remove_all(int value)`
   - Removes all the elements
-    with the same value of `value`.
+    with the same `value`.
