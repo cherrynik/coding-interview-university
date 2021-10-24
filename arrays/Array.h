@@ -6,7 +6,7 @@
 
 class Array {
 private:
-  using value_type = std::string;
+  using value_type = int;
 
   const uint8_t min_size_ = 16;
 
