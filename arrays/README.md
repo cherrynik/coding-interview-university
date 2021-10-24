@@ -37,8 +37,8 @@ g++ Array.cpp TestArray.cpp main.cpp
   - Removes the last element from container
     and returns its value.
 - `remove_at(int index)`
-  - Removes the element from `container[index]`,
-    returning its value.
+  - Removes the element from `container[index]`
+    and returns its value.
 - `remove_all(int value)`
   - Removes all the elements
     with the same value of `value`.
