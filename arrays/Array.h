@@ -23,7 +23,8 @@ private:
   void resize_amortizely_when(Operation operation);
   void save_and_move_when(Array::Operation operation,
                           value_type input,
-                          int starting_from_index);
+                          int start_from_i);
+  inline value_type* at_memory(int i) const;
 
 public:
   Array(int size = 1);
@@ -35,13 +36,14 @@ public:
   void push_back(value_type el);
 
   value_type pop();
-  value_type remove(int index);
+  value_type remove_at(int index);
+  void remove_all(value_type el);
 
   size_t capacity() const;
   size_t size() const;
   bool is_empty() const;
 
-  value_type at(int index) const;
-  value_type operator[](int index) const;
+  value_type at(int i) const;
+  value_type operator[](int i) const;
   int find(value_type el) const;
 };

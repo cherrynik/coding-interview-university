@@ -1,10 +1,5 @@
 #include "Array.h"
 
-/* TODO: The universal aLgorithm to move elements in needed direction
- * For: Insert, prepend, delete, remove
- * Then finish to implement these commands and write tests for them.
- */
-
 Array::Array(int input_size) : size_(0), min_size_(4 * sizeof(value_type)) {
   if (input_size < 1) {
     throw std::invalid_argument("Size of array cannot be less than 1.");
@@ -52,33 +47,31 @@ void Array::resize_amortizely_when(Array::Operation operation) {
 
 void Array::save_and_move_when(Array::Operation operation,
                                value_type input,
-			       int starting_from_index) {
-  if (starting_from_index > size_ ||
-      starting_from_index < 0) {
+			       int start_from_i) {
+  if (start_from_i > size_ ||
+      start_from_i < 0) {
     throw std::invalid_argument("Operation can't be executed: index is out of boundaries.");
   }
 
-  //value_type* current_pos = (value_type*) (allocated_at_ + starting_from_index);
   switch (operation) {
     case Array::Operation::WRITE: {
       value_type current_val = input,
                  tmp;
-      for (; starting_from_index < size_; ++starting_from_index) {
-        value_type* current_pos = (value_type*) (allocated_at_ + starting_from_index);
-
-        tmp = *current_pos;
-	*current_pos = current_val;
+      for (; start_from_i < size_; ++start_from_i) {
+        tmp = *at_memory(start_from_i);
+	*at_memory(start_from_i) = current_val;
 	current_val = tmp;
       }
+
       Array::push_back(current_val);
       break;
     }
-    case Array::Operation::DELETE: {
-      for (; starting_from_index < size_ - 1; ++starting_from_index) {
-        value_type* current_pos = (value_type*) (allocated_at_ + starting_from_index);
 
-	*current_pos = *(current_pos + 1);
+    case Array::Operation::DELETE: {
+      for (; start_from_i < size_ - 1; ++start_from_i) {
+	*at_memory(start_from_i) = *at_memory(start_from_i + 1);
       }
+
       Array::pop();
       break;
     }
@@ -98,14 +91,14 @@ bool Array::is_empty() const {
 }
 
 void Array::push_back(value_type el) {
-  *(allocated_at_ + size_) = el;
+  *at_memory(size_) = el;
   ++size_;
 
   Array::resize_amortizely_when(Array::Operation::WRITE);
 }
 
-void Array::insert(int before_what_index, value_type el) {
-  Array::save_and_move_when(Array::Operation::WRITE, el, before_what_index);
+void Array::insert(int before_what_i, value_type el) {
+  Array::save_and_move_when(Array::Operation::WRITE, el, before_what_i);
 }
 
 void Array::push_front(value_type el) {
@@ -117,9 +110,9 @@ Array::value_type Array::pop() {
     throw std::runtime_error("Array is already out of elements.");
   }
 
-  value_type* last_element = allocated_at_ + (size_ - 1);
-  value_type copy_of_last = *last_element;
-  last_element = NULL;
+  value_type* last_el = at_memory(size_ - 1);
+  value_type copy_of_last = *last_el;
+  last_el = NULL;
   --size_;
 
   Array::resize_amortizely_when(Array::Operation::DELETE);
@@ -127,31 +120,46 @@ Array::value_type Array::pop() {
   return copy_of_last;
 }
 
-Array::value_type Array::remove(int index) {
-  value_type copy_of_element = at(index);
+Array::value_type Array::remove_at(int i) {
+  value_type copy_of_el = at(i);
 
-  save_and_move_when(Array::Operation::DELETE, value_type(), index);
+  save_and_move_when(Array::Operation::DELETE, value_type(), i);
 
-  return copy_of_element;
+  return copy_of_el;
 }
 
-Array::value_type Array::at(int index) const {
-  if (index < 0 || index >= size_) {
+void Array::remove_all(value_type el) {
+  int found_at = Array::find(el);
+
+  while (found_at != -1) {
+    Array::remove_at(found_at);
+    found_at = Array::find(el);
+  }
+}
+
+Array::value_type* Array::at_memory(int i) const {
+  return allocated_at_ + i;
+}
+
+Array::value_type Array::at(int i) const {
+  if (i < 0 || i >= size_) {
     throw std::invalid_argument("Index is out of boundaries.");
   }
-  return *(allocated_at_ + index);
+
+  return *Array::at_memory(i);
 }
 
-Array::value_type Array::operator[](int index) const {
-  return Array::at(index);
+Array::value_type Array::operator[](int i) const {
+  return Array::at(i);
 }
 
 int Array::find(int requested_val) const {
   for (int i = 0; i < size_; ++i) {
-    value_type current = *(allocated_at_ + i);
+    value_type current = *at_memory(i);
     if (current == requested_val) {
       return i;
     }
   }
+
   return -1;
 }
