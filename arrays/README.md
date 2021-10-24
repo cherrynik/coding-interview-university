@@ -36,7 +36,8 @@ g++ Array.cpp TestArray.cpp main.cpp
 - `pop()`
   - Removes the last element from container
     and returns its value.
-- **NOT FINISHED YET:** `remove(int index)`
-  - _No description yet._
-- **NOT FINISHED YET:** `delete(int all_the_same_elements)`
-  - _No description yet._
+- `remove_at(int index)`
+  - Removes the element by the given index.
+- `remove_all(int value)`
+  - Removes all the elements
+    with the same value of `value`.
