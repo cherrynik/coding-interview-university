@@ -502,7 +502,8 @@ You can see my code here:
  - [C++](https://github.com/jwasham/practice-cpp)
  - [Python](https://github.com/jwasham/practice-python)
 
-**Added by myself:**
+(_Added by myself:_)
+
 _And my here:_
  - [C++ Data Structures](https://github.com/cherrynik/CPP-DataStructures)
 
